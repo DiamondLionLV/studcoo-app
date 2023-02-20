@@ -24,9 +24,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int _question = 0;
   bool flashState = false;
 
-  WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
-
   late final Future<void> _future;
   CameraController? _cameraController;
 

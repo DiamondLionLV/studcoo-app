@@ -237,6 +237,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
+  flutter_scalable_ocr:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "0bebcaa0063821920a5d235dba0542d70cd3c7f2"
+      url: "https://github.com/DiamondLionLV/flutter_scalable_ocr.git"
+    source: git
+    version: "1.0.1"
   flutter_svg:
     dependency: "direct main"
     description:

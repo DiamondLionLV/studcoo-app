@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool _isPermissionGranted = false;
   int _question = 0;
   bool flashState = false;
+  String scannedText = "";
 
   late final Future<void> _future;
   CameraController? _cameraController;
@@ -67,22 +70,38 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         return Stack(
           children: [
             if (_isPermissionGranted)
-              FutureBuilder<List<CameraDescription>>(
-                future: availableCameras(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    _initCameraController(snapshot.data!);
+              // FutureBuilder<List<CameraDescription>>(
+              //   future: availableCameras(),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.hasData) {
+              //       _initCameraController(snapshot.data!);
 
-                    return Positioned(
-                      top: 0,
-                      bottom: 0,
-                      child: CameraPreview(_cameraController!),
-                    );
-                  } else {
-                    return const LinearProgressIndicator();
-                  }
-                },
-              ),
+              //       return Positioned(
+              //         top: 0,
+              //         bottom: 0,
+              //         child: CameraPreview(_cameraController!),
+              //       );
+              //     } else {
+              //       return const LinearProgressIndicator();
+              //     }
+              //   },
+              // ),
+              ScalableOCR(
+                  paintboxCustom: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 4.0
+                    ..color = const Color(0xffaa1578),
+                  boxLeftOff: 5,
+                  boxBottomOff: 2.5,
+                  boxRightOff: 5,
+                  boxTopOff: 2.5,
+                  boxHeight: MediaQuery.of(context).size.height / 3,
+                  getRawData: (value) {
+                    inspect(value);
+                  },
+                  getScannedText: (value) {
+                    scannedText = value;
+                  }),
             Scaffold(
               backgroundColor: _isPermissionGranted
                   ? const Color.fromARGB(0, 247, 120, 251)
@@ -225,19 +244,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Future<void> _scanImage() async {
-    if (_cameraController == null) return;
+    //if (_cameraController == null) return;
 
     final navigator = Navigator.of(context);
 
     try {
-      final pictureFile = await _cameraController!.takePicture();
+      // final pictureFile = await _cameraController!.takePicture();
 
-      final file = File(pictureFile.path);
+      // final file = File(pictureFile.path);
 
-      final inputImage = InputImage.fromFile(file);
-      final recognizedText = await textRecognizer.processImage(inputImage);
+      // final inputImage = InputImage.fromFile(file);
+      // final recognizedText = await textRecognizer.processImage(inputImage);
       const apiKey = apiSecretKey;
-      inputText = recognizedText.text;
+      //inputText = recognizedText.text;
+      inputText = scannedText;
 
       var url = Uri.https("api.openai.com", "/v1/completions");
       final response = await http.post(
@@ -248,7 +268,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
         body: jsonEncode({
           "model": "text-davinci-003",
-          "prompt": recognizedText.text,
+          "prompt": scannedText, //recognizedText.text,
           'temperature': 0.0,
           'max_tokens': 100,
           'top_p': 1.0,

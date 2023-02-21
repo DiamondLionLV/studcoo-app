@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "684211004402",
+    "firebase_url": "https://studcoo-default-rtdb.firebaseio.com",
     "project_id": "studcoo",
     "storage_bucket": "studcoo.appspot.com"
   },
@@ -10,6 +11,42 @@
         "mobilesdk_app_id": "1:684211004402:android:47b78fda1cfd3f66f5c16b",
         "android_client_info": {
           "package_name": "com.example.studcoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684211004402-oh8amhiu2tvhqh6d8pjk6p8qiu4rj7gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAhnul8KMnubRII7q4aCkDG_axn6xBv4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684211004402-f8tn802jt3d73530k93790tkepf8e3vn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "684211004402-38hibecc16e4ijle4jvlie8st039a3go.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.studcoo.studcooapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684211004402:android:5b87ff5cfe3da257f5c16b",
+        "android_client_info": {
+          "package_name": "com.studcoo.studcooapp"
         }
       },
       "oauth_client": [

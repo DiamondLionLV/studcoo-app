@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   boxBottomOff: 2.5,
                   boxRightOff: 5,
                   boxTopOff: 2.5,
-                  boxHeight: MediaQuery.of(context).size.height / 3,
+                  boxHeight: MediaQuery.of(context).size.height / 3, //n
                   getRawData: (value) {
                     inspect(value);
                   },

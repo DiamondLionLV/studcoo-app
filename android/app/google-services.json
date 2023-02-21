@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684211004402:android:47b78fda1cfd3f66f5c16b",
+        "mobilesdk_app_id": "1:684211004402:android:5b87ff5cfe3da257f5c16b",
         "android_client_info": {
-          "package_name": "com.example.studcoo"
+          "package_name": "com.studcoo.studcooapp"
         }
       },
       "oauth_client": [

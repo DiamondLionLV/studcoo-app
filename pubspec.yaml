@@ -42,11 +42,10 @@ dependencies:
   flutter_svg: ^1.1.6
   adobe_xd: ^2.0.1
   lottie: ^2.2.0
-  firebase_dynamic_links: ^5.0.14
   flutter_scalable_ocr:
     git:
       url: https://github.com/DiamondLionLV/flutter_scalable_ocr.git
-      ref: main
+      ref: 65872f36b525926e358a4e41e313fbfdab24b2f5
 
 
   # The following adds the Cupertino Icons font to your application.

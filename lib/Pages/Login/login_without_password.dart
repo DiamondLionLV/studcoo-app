@@ -1,13 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:studcoo/Pages/Login/auth_page.dart';
-import 'package:studcoo/Pages/home.dart';
-import 'package:studcoo/components/button-white.dart';
 import 'package:studcoo/components/button.dart';
-import 'package:studcoo/components/square_tile.dart';
 import 'package:studcoo/components/textfield.dart';
-import 'package:studcoo/services/auth_service.dart';
 
 class LoginWithoutPasswordPage extends StatefulWidget {
   // final Function()? onTap;

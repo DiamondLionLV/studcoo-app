@@ -92,17 +92,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     ..strokeWidth = 4.0
                     ..color = const Color(0xffaa1578),
                   boxLeftOff: 5,
-                  boxBottomOff: 2.5,
+                  boxBottomOff: 2.2,
                   boxRightOff: 5,
-                  boxTopOff: 2.5,
-                  boxHeight: MediaQuery.of(context).size.height / 3, //n
-                  getRawData: (value) {
-                    inspect(value);
-                  },
+                  boxTopOff: 2.2,
+                  boxHeight: MediaQuery.of(context).size.height, //n
+                  // getRawData: (value) {
+                  //   inspect(value);
+                  // },
                   getScannedText: (value) {
                     scannedText = value;
                   }),
             Scaffold(
+              appBar: AppBar(
+                toolbarHeight: 28.5,
+                shadowColor: Colors.transparent,
+                iconTheme: const IconThemeData(
+                  color: Colors.transparent,
+                ),
+                backgroundColor: Colors.black,
+              ),
               backgroundColor: _isPermissionGranted
                   ? const Color.fromARGB(0, 247, 120, 251)
                   : null,

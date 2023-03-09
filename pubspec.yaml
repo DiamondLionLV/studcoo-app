@@ -39,9 +39,9 @@ dependencies:
   camera: ^0.10.3
   google_mlkit_text_recognition: ^0.5.0
   permission_handler: ^10.2.0
-  flutter_svg: ^1.1.6
-  adobe_xd: ^2.0.1
+  flutter_svg: ^2.0.2
   lottie: ^2.2.0
+  chat_gpt_sdk: ^2.0.1
   flutter_scalable_ocr:
     git:
       url: https://github.com/DiamondLionLV/flutter_scalable_ocr.git
@@ -104,6 +104,7 @@ flutter:
     - assets/studcoo_full-logo_white.png
     - lib/images/google.png
     - lib/images/apple.png
+    - assets/icons/profile_icon_round.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

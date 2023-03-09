@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   CameraController? _cameraController;
 
   final textRecognizer = TextRecognizer();
+  late OpenAI openAI;
 
   @override
   void initState() {
@@ -37,6 +39,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _future = _requestCameraPermission();
+
+    openAI = OpenAI.instance.build(
+        token: apiSecretKey,
+        baseOption: HttpSetup(
+            receiveTimeout: const Duration(seconds: 50),
+            connectTimeout: const Duration(seconds: 50)),
+        isLogger: true);
   }
 
   @override
@@ -44,6 +53,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _stopCamera();
     textRecognizer.close();
+    openAI.close();
     super.dispose();
   }
 
@@ -288,6 +298,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       Map<String, dynamic> newresponse = jsonDecode(utf8body);
 
       final answer = newresponse['choices'][0]['text'];
+
+      // final request = ChatCompleteText(messages: [
+      //   Map.of({"role": "user", "content": scannedText})
+      // ], maxToken: 700, model: kChatGptTurbo0301Model);
+
+      // final response = await openAI.onChatCompletion(request: request!);
+      // var answer;
+      // for (var element in response!.choices) {
+      //   //print("data -> ${element.message.content}");
+      //   return answer = element.message.content;
+      // }
 
       await navigator.push(
         MaterialPageRoute(

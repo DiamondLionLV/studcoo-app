@@ -23,7 +23,7 @@ class ResultScreen extends StatelessWidget {
                   Container(
                     color: const Color.fromARGB(255, 201, 124, 209),
                     width: MediaQuery.of(context).size.width / 1.5,
-                    height: MediaQuery.of(context).size.height / 2.5,
+                    height: MediaQuery.of(context).size.height / 1.5,
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [

@@ -1,5 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+const List<String> iconNames = <String>[
+  "assets/icons/profile_icon_round.svg",
+];
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -13,41 +18,31 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff072f5f),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           const SizedBox(height: 130),
 
           // title text
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: const [
-              Text(
-                'Profils',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                child: Text(
+                  'Profile',
+                  style: TextStyle(
+                    color: Color(0xffb31c6e),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
 
           const SizedBox(height: 50),
-
-          // divider line
-          Row(
-            children: const [
-              Expanded(
-                child: Divider(
-                  color: Color.fromARGB(255, 22, 104, 167),
-                ),
-              )
-            ],
-          ),
-
-          const SizedBox(height: 20),
 
           // Latvia hotline number
           Row(
@@ -55,13 +50,13 @@ class ProfilePage extends StatelessWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.email_rounded,
-                      size: 60,
-                      color: Colors.white,
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgPicture.asset(
+                      "assets/icons/profile_icon_round.svg",
+                      width: 70,
+                      height: 70,
                     ),
                   ),
                 ],
@@ -71,39 +66,17 @@ class ProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Text(
-                        "E-pasts",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      user.isAnonymous
-                          ? const Text(
-                              //"${user.email!}",
-                              'Anonīms',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              "${user.email!}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
+                      Text(
+                        "${user.email!}",
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xffb31c6e),
+                        ),
+                      ),
                     ],
                   ),
                 ],

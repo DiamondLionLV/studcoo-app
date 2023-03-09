@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:studcoo/Pages/chat_page/constant.dart';
@@ -21,8 +22,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-const backgroundColor = Color.fromARGB(255, 6, 38, 77);
-const botBackgroundColor = Color(0xff072f5f);
+const backgroundColor = Colors.white;
+const botBackgroundColor = Colors.white;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -31,56 +32,87 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-Future<String> generateResponse(String prompt) async {
-  const apiKey = apiSecretKey;
+// Future<String> generateResponse(String prompt) async {
+//   const apiKey = apiSecretKey;
 
-  var url = Uri.https("api.openai.com", "/v1/completions");
-  final response = await http.post(
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $apiKey'
-    },
-    body: jsonEncode({
-      "model": "text-davinci-003",
-      "prompt": prompt,
-      'temperature': 0.5,
-      'max_tokens': 700,
-      'top_p': 1.0,
-      'frequency_penalty': 0.5,
-      'presence_penalty': 0.0,
-    }),
-  );
+//   var url = Uri.https("api.openai.com", "/v1/completions");
+//   final response = await http.post(
+//     url,
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer $apiKey'
+//     },
+//     body: jsonEncode({
+//       "model": "text-davinci-003",
+//       "prompt": prompt,
+//       'temperature': 0.5,
+//       'max_tokens': 700,
+//       'top_p': 1.0,
+//       'frequency_penalty': 0.5,
+//       'presence_penalty': 0.0,
+//     }),
+//   );
 
-  // Do something with the response
-  String utf8body = utf8.decode(response.bodyBytes);
-  Map<String, dynamic> newresponse = jsonDecode(utf8body);
-  return newresponse['choices'][0]['text'];
-}
+//   // Do something with the response
+//   String utf8body = utf8.decode(response.bodyBytes);
+//   Map<String, dynamic> newresponse = jsonDecode(utf8body);
+//   return newresponse['choices'][0]['text'];
+// }
 
 class _ChatPageState extends State<ChatPage> {
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
   late bool isLoading;
+  late OpenAI openAI;
 
   @override
   void initState() {
     super.initState();
     isLoading = false;
+    openAI = OpenAI.instance.build(
+        token: apiSecretKey,
+        baseOption: HttpSetup(
+            receiveTimeout: const Duration(seconds: 50),
+            connectTimeout: const Duration(seconds: 50)),
+        isLogger: true);
+  }
+
+  @override
+  void dispose() {
+    ///close stream complete text
+    openAI.close();
+    super.dispose();
+  }
+
+  Future generateResponse(String prompt) async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": prompt})
+    ], maxToken: 700, model: kChatGptTurbo0301Model);
+
+    final response = await openAI.onChatCompletion(request: request!);
+    for (var element in response!.choices) {
+      //print("data -> ${element.message.content}");
+      return element.message.content;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 50,
+        shadowColor: Colors.transparent,
         title: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            "Studcoo",
-            maxLines: 2,
-            textAlign: TextAlign.center,
+            "Chat",
+            maxLines: 1,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: Color(0xffaa1578),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         backgroundColor: botBackgroundColor,
@@ -97,7 +129,7 @@ class _ChatPageState extends State<ChatPage> {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: Color(0xffaa1578),
                 ),
               ),
             ),
@@ -120,11 +152,11 @@ class _ChatPageState extends State<ChatPage> {
     return Visibility(
       visible: !isLoading,
       child: Container(
-        color: botBackgroundColor,
+        color: Color.fromARGB(255, 216, 216, 216),
         child: IconButton(
           icon: const Icon(
             Icons.send_rounded,
-            color: Colors.white12,
+            color: Color(0xffaa1578),
           ),
           onPressed: () async {
             setState(
@@ -169,7 +201,7 @@ class _ChatPageState extends State<ChatPage> {
         style: const TextStyle(color: Colors.white),
         controller: _textController,
         decoration: const InputDecoration(
-          fillColor: botBackgroundColor,
+          fillColor: Color.fromARGB(255, 216, 216, 216),
           filled: true,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -217,8 +249,8 @@ class ChatMessageWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       padding: const EdgeInsets.all(16),
       color: chatMessageType == ChatMessageType.bot
-          ? botBackgroundColor
-          : backgroundColor,
+          ? Color.fromARGB(255, 216, 216, 216)
+          : Color.fromARGB(255, 170, 21, 120),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

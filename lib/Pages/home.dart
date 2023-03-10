@@ -261,54 +261,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     setState(() {});
   }
 
-  Future<void> _scanImage() async {
-    //if (_cameraController == null) return;
-
+  Future<String> _scanImage() async {
     final navigator = Navigator.of(context);
 
     try {
-      // final pictureFile = await _cameraController!.takePicture();
-
-      // final file = File(pictureFile.path);
-
-      // final inputImage = InputImage.fromFile(file);
-      // final recognizedText = await textRecognizer.processImage(inputImage);
-      const apiKey = apiSecretKey;
-      //inputText = recognizedText.text;
       inputText = scannedText;
 
-      var url = Uri.https("api.openai.com", "/v1/completions");
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey'
-        },
-        body: jsonEncode({
-          "model": "text-davinci-003",
-          "prompt": scannedText, //recognizedText.text,
-          'temperature': 0.0,
-          'max_tokens': 100,
-          'top_p': 1.0,
-          'frequency_penalty': 0.5,
-          'presence_penalty': 0.0,
-        }),
-      );
-      String utf8body = utf8.decode(response.bodyBytes);
-      Map<String, dynamic> newresponse = jsonDecode(utf8body);
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": scannedText})
+      ], maxToken: 700, model: kChatGptTurbo0301Model);
 
-      final answer = newresponse['choices'][0]['text'];
-
-      // final request = ChatCompleteText(messages: [
-      //   Map.of({"role": "user", "content": scannedText})
-      // ], maxToken: 700, model: kChatGptTurbo0301Model);
-
-      // final response = await openAI.onChatCompletion(request: request!);
-      // var answer;
-      // for (var element in response!.choices) {
-      //   //print("data -> ${element.message.content}");
-      //   return answer = element.message.content;
-      // }
+      final response = await openAI.onChatCompletion(request: request);
+      var answer;
+      for (var element in response!.choices) {
+        //print("data -> ${element.message.content}");
+        return answer = element.message.content;
+      }
 
       await navigator.push(
         MaterialPageRoute(

@@ -104,7 +104,19 @@ flutter:
     - assets/studcoo_full-logo_white.png
     - lib/images/google.png
     - lib/images/apple.png
+
+    # ICONS
     - assets/icons/profile_icon_round.svg
+    - assets/icons/profile_icon.svg
+    - assets/icons/settings_icon.svg
+    - assets/icons/info_icon.svg
+    - assets/icons/help_icon.svg
+    - assets/icons/email_icon.svg
+    - assets/icons/password_icon.svg
+    - assets/icons/log_out_icon.svg
+    - assets/icons/delete_icon.svg
+    - assets/icons/back_icon.svg
+    - assets/icons/language_icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 130),
+          SizedBox(height: MediaQuery.of(context).size.height / 6.5),
 
           // title text
           Row(
@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.of(context).size.height / 35),
 
           // Latvia hotline number
           Padding(
@@ -90,7 +90,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -142,7 +142,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -193,7 +193,8 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -244,7 +245,8 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(

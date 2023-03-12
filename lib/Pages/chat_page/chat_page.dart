@@ -90,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
       Map.of({"role": "user", "content": prompt})
     ], maxToken: 700, model: kChatGptTurbo0301Model);
 
-    final response = await openAI.onChatCompletion(request: request!);
+    final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
       //print("data -> ${element.message.content}");
       return element.message.content;
@@ -102,6 +102,8 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
+        centerTitle: false,
+        leadingWidth: 0,
         shadowColor: Colors.transparent,
         title: const Padding(
           padding: EdgeInsets.all(8.0),
@@ -111,7 +113,7 @@ class _ChatPageState extends State<ChatPage> {
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Color(0xffaa1578),
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -152,7 +154,7 @@ class _ChatPageState extends State<ChatPage> {
     return Visibility(
       visible: !isLoading,
       child: Container(
-        color: Color.fromARGB(255, 216, 216, 216),
+        color: const Color.fromARGB(255, 241, 239, 239),
         child: IconButton(
           icon: const Icon(
             Icons.send_rounded,
@@ -198,10 +200,10 @@ class _ChatPageState extends State<ChatPage> {
     return Expanded(
       child: TextField(
         textCapitalization: TextCapitalization.sentences,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Color(0xffaa1578)),
         controller: _textController,
         decoration: const InputDecoration(
-          fillColor: Color.fromARGB(255, 216, 216, 216),
+          fillColor: Color.fromARGB(255, 241, 239, 239),
           filled: true,
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -245,55 +247,73 @@ class ChatMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      padding: const EdgeInsets.all(16),
-      color: chatMessageType == ChatMessageType.bot
-          ? Color.fromARGB(255, 216, 216, 216)
-          : Color.fromARGB(255, 170, 21, 120),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          chatMessageType == ChatMessageType.bot
-              ? Container(
-                  margin: const EdgeInsets.only(right: 16.0),
-                  child: CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 9, 58, 113),
-                    child: Image.asset(
-                      'assets/avatar.png',
-                      scale: 1.5,
-                    ),
-                  ),
-                )
-              : Container(
-                  margin: const EdgeInsets.only(right: 16.0),
-                  child: const CircleAvatar(
-                    child: Icon(
-                      Icons.person,
-                    ),
-                  ),
-                ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  child: Text(
-                    text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(10),
+            topRight: chatMessageType == ChatMessageType.bot
+                ? const Radius.circular(10)
+                : const Radius.circular(10),
+            bottomLeft: const Radius.circular(10),
+            bottomRight: chatMessageType == ChatMessageType.bot
+                ? const Radius.circular(10)
+                : const Radius.circular(10),
           ),
-        ],
+          gradient: chatMessageType == ChatMessageType.bot
+              ? const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 241, 239, 239),
+                    Color.fromARGB(255, 241, 239, 239),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : const LinearGradient(
+                  colors: [
+                    Color(0xffc22466),
+                    Color(0xffaa1578),
+                  ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: chatMessageType == ChatMessageType.bot
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: chatMessageType == ChatMessageType.bot
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      ),
+                      child: Text(
+                        text,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: chatMessageType == ChatMessageType.bot
+                                ? const Color(0xffaa1578)
+                                : Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

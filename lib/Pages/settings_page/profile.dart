@@ -1,14 +1,50 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studcoo/Pages/Login/onboarding.dart';
+import 'package:studcoo/Pages/settings_page/profile/change_email.dart';
+import 'package:studcoo/Pages/settings_page/profile/change_password.dart';
+import 'package:studcoo/Pages/settings_page/profile/delete_account.dart';
 
 class ProfilePages extends StatelessWidget {
   ProfilePages({super.key});
 
   final user = FirebaseAuth.instance.currentUser!;
 
-  void signUserOut() {
+  void signUserOut(context) {
     FirebaseAuth.instance.signOut();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OnboardingPage()),
+    );
+  }
+
+  // void deleteUser(context) {
+  //   FirebaseAuth.instance.currentUser!.delete();
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => OnboardingPage()),
+  //   );
+  // }
+  void redirectUserDelete(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const DeleteAccountPage()),
+    );
+  }
+
+  void changeEmailRedirect(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ChangeEmailPage()),
+    );
+  }
+
+  void redirectUserChangePassword(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+    );
   }
 
   @override
@@ -47,7 +83,7 @@ class ProfilePages extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -73,13 +109,16 @@ class ProfilePages extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Text(
-                          "Change email",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                      children: [
+                        GestureDetector(
+                          onTap: () => changeEmailRedirect(context),
+                          child: const Text(
+                            "Change email",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
                         ),
                       ],
@@ -90,7 +129,7 @@ class ProfilePages extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -116,13 +155,16 @@ class ProfilePages extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Text(
-                          "Change password",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                      children: [
+                        GestureDetector(
+                          onTap: () => redirectUserChangePassword(context),
+                          child: const Text(
+                            "Change password",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
                         ),
                       ],
@@ -132,7 +174,7 @@ class ProfilePages extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -157,24 +199,27 @@ class ProfilePages extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: const [
-                        Text(
-                          "Delete account",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                    GestureDetector(
+                      onTap: () => redirectUserDelete(context),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Delete account",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -202,7 +247,7 @@ class ProfilePages extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: signUserOut,
+                          onTap: () => signUserOut(context),
                           child: const Text(
                             "Log out",
                             style: TextStyle(

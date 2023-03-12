@@ -1,14 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studcoo/Pages/settings_page/settings/communication.dart';
+import 'package:studcoo/Pages/settings_page/settings/language.dart';
 
-class SettingsPages extends StatelessWidget {
+class SettingsPages extends StatefulWidget {
   SettingsPages({super.key});
 
+  @override
+  State<SettingsPages> createState() => _SettingsPagesState();
+}
+
+class _SettingsPagesState extends State<SettingsPages> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  void signUserOut() {
-    FirebaseAuth.instance.signOut();
+  void redirectLanguage(context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LanguagePage()));
+  }
+
+  void redirectCommunication(context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => CommunicationPage()));
   }
 
   @override
@@ -47,7 +60,7 @@ class SettingsPages extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.width / 10),
 
           // Latvia hotline number
           Padding(
@@ -73,13 +86,16 @@ class SettingsPages extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Text(
-                          "Language",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                      children: [
+                        GestureDetector(
+                          onTap: () => redirectLanguage(context),
+                          child: const Text(
+                            "Language",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
                         ),
                       ],
@@ -90,7 +106,7 @@ class SettingsPages extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.width / 10),
 
           // Latvia hotline number
           Padding(
@@ -116,13 +132,16 @@ class SettingsPages extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Text(
-                          "Communication preferences",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                      children: [
+                        GestureDetector(
+                          onTap: () => redirectCommunication(context),
+                          child: const Text(
+                            "Communication preferences",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
                         ),
                       ],

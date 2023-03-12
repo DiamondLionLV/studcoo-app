@@ -4,26 +4,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studcoo/Pages/Login/auth_page.dart';
 import 'package:studcoo/Pages/Login/login_without_password.dart';
+import 'package:studcoo/Pages/Login/onboarding.dart';
 import 'package:studcoo/Pages/home.dart';
 import 'package:studcoo/components/button-white.dart';
 import 'package:studcoo/components/button.dart';
 import 'package:studcoo/components/square_tile.dart';
 import 'package:studcoo/components/textfield.dart';
+import 'package:studcoo/main.dart';
 import 'package:studcoo/services/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
+class DeleteAccountPage extends StatefulWidget {
   // final Function()? onTap;
   // const LoginPage({super.key, required this.onTap});
-  const LoginPage({super.key});
+  const DeleteAccountPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<DeleteAccountPage> createState() => _DeleteAccountPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _DeleteAccountPageState extends State<DeleteAccountPage> {
   // text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  void deleteUser(context) {
+    FirebaseAuth.instance.currentUser!.delete();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OnboardingPage()),
+    );
+  }
 
   // sign user in method
   void signUserIn() async {
@@ -101,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
         title: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            "Login",
+            "Delete account",
             maxLines: 1,
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -120,17 +130,6 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 SizedBox(height: MediaQuery.of(context).size.width / 10),
 
-                // username textfield
-                MyTextField(
-                  controller: emailController,
-                  hintText: 'E-mail',
-                  obscureText: false,
-                ),
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.width / 50,
-                ),
-
                 // password textfield
                 MyTextField(
                   controller: passwordController,
@@ -138,22 +137,23 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                 ),
 
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height / 20,
-                // ),
+                SizedBox(height: MediaQuery.of(context).size.width / 50),
 
-                // // signin without password button
-                // MyButtonWhite(
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => const LoginWithoutPasswordPage(),
-                //       ),
-                //     );
-                //   },
-                //   text: 'Log in without password',
-                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Type in your password to confirm deletion.\nDeletion is irreversible.",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xffb31c6e),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
@@ -161,8 +161,8 @@ class _LoginPageState extends State<LoginPage> {
 
                 // sign in button
                 MyButton(
-                  onTap: signUserIn,
-                  text: 'Login',
+                  onTap: () => deleteUser(context),
+                  text: 'Delete',
                 ),
               ],
             ),

@@ -105,6 +105,10 @@ flutter:
     - lib/images/google.png
     - lib/images/apple.png
 
+    # ILLUSTRATIONS
+    - assets/illustrations/party_popper_illustration.png
+    - assets/illustrations/envelope_with_arrow_illustration.png
+
     # ICONS
     - assets/icons/profile_icon_round.svg
     - assets/icons/profile_icon.svg
@@ -117,6 +121,7 @@ flutter:
     - assets/icons/delete_icon.svg
     - assets/icons/back_icon.svg
     - assets/icons/language_icon.svg
+    - assets/flags/globe.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

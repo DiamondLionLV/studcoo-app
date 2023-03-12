@@ -1,16 +1,10 @@
-import 'dart:developer';
-import 'dart:io';
-import 'dart:convert';
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
-import 'package:studcoo/Pages/chat_page/chat_page.dart';
 import 'package:studcoo/Pages/result_screen.dart';
-import 'package:http/http.dart' as http;
 import 'package:studcoo/Pages/chat_page/constant.dart';
 import 'package:studcoo/Pages/variables.dart';
 
@@ -23,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool _isPermissionGranted = false;
-  int _question = 0;
   bool flashState = false;
   String scannedText = "";
 
@@ -51,7 +44,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _stopCamera();
     textRecognizer.close();
     openAI.close();
     super.dispose();
@@ -61,14 +53,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return;
-    }
-
-    if (state == AppLifecycleState.inactive) {
-      _stopCamera();
-    } else if (state == AppLifecycleState.resumed &&
-        _cameraController != null &&
-        _cameraController!.value.isInitialized) {
-      _startCamera();
     }
   }
 
@@ -80,22 +64,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         return Stack(
           children: [
             if (_isPermissionGranted)
-              // FutureBuilder<List<CameraDescription>>(
-              //   future: availableCameras(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       _initCameraController(snapshot.data!);
-
-              //       return Positioned(
-              //         top: 0,
-              //         bottom: 0,
-              //         child: CameraPreview(_cameraController!),
-              //       );
-              //     } else {
-              //       return const LinearProgressIndicator();
-              //     }
-              //   },
-              // ),
               ScalableOCR(
                   paintboxCustom: Paint()
                     ..style = PaintingStyle.stroke
@@ -213,55 +181,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _isPermissionGranted = status == PermissionStatus.granted;
   }
 
-  void _startCamera() {
-    if (_cameraController != null) {
-      _cameraSelected(_cameraController!.description);
-    }
-  }
-
-  void _stopCamera() {
-    if (_cameraController != null) {
-      _cameraController?.dispose();
-    }
-  }
-
-  void _initCameraController(List<CameraDescription> cameras) {
-    if (_cameraController != null) {
-      return;
-    }
-
-    // Select the first rear camera.
-    CameraDescription? camera;
-    for (var i = 0; i < cameras.length; i++) {
-      final CameraDescription current = cameras[i];
-      if (current.lensDirection == CameraLensDirection.back) {
-        camera = current;
-        break;
-      }
-    }
-
-    if (camera != null) {
-      _cameraSelected(camera);
-    }
-  }
-
-  Future<void> _cameraSelected(CameraDescription camera) async {
-    _cameraController = CameraController(
-      camera,
-      ResolutionPreset.max,
-      enableAudio: false,
-    );
-
-    await _cameraController!.initialize();
-    await _cameraController!.setFlashMode(FlashMode.off);
-
-    if (!mounted) {
-      return;
-    }
-    setState(() {});
-  }
-
-  Future<String> _scanImage() async {
+  Future<String?> _scanImage() async {
     final navigator = Navigator.of(context);
 
     try {
@@ -274,8 +194,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       final response = await openAI.onChatCompletion(request: request);
       var answer;
       for (var element in response!.choices) {
-        //print("data -> ${element.message.content}");
-        return answer = element.message.content;
+        answer = element.message.content;
+        break;
       }
 
       await navigator.push(
@@ -283,6 +203,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           builder: (BuildContext context) => ResultScreen(text: answer),
         ),
       );
+
+      return answer;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

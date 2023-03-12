@@ -53,7 +53,7 @@ class AboutPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          SizedBox(height: MediaQuery.of(context).size.height / 50),
 
           // title text
           Row(
@@ -73,7 +73,7 @@ class AboutPage extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: MediaQuery.of(context).size.height / 90),
           // title text
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -111,7 +111,7 @@ class AboutPage extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -152,7 +152,7 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -193,7 +193,7 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
           Padding(
@@ -234,7 +234,7 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
           // Latvia hotline number
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -274,7 +274,7 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
           // Latvia hotline number
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -288,22 +288,13 @@ class AboutPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePages()),
-                              );
-                            },
-                            child: const Text(
-                              "Licenses",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffb31c6e),
-                              ),
+                        children: const [
+                          Text(
+                            "Licenses",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
                             ),
                           ),
                         ],

@@ -4,9 +4,10 @@ import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
-import 'package:studcoo/Pages/result_screen.dart';
+import 'package:studcoo/Pages/chat_page/result.dart';
 import 'package:studcoo/Pages/chat_page/constant.dart';
 import 'package:studcoo/Pages/variables.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,18 +19,67 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool _isPermissionGranted = false;
   bool flashState = false;
-  String scannedText = "";
+  //String scannedText = "";
+
+  InterstitialAd? _interstitialAd;
 
   late final Future<void> _future;
   CameraController? _cameraController;
 
   final textRecognizer = TextRecognizer();
   late OpenAI openAI;
+  int _numInterstitialLoadAttempts = 0;
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: "ca-app-pub-3940256099942544/4411468910",
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _numInterstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _numInterstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_numInterstitialLoadAttempts < 10) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _createInterstitialAd();
 
     _future = _requestCameraPermission();
 
@@ -104,23 +154,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IconButton(
-                                  iconSize: 50,
-                                  icon: const Icon(
-                                      Icons.picture_in_picture_alt_outlined),
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    if (flashState == false) {
-                                      _cameraController!
-                                          .setFlashMode(FlashMode.torch);
-                                      flashState = true;
-                                    } else {
-                                      _cameraController!
-                                          .setFlashMode(FlashMode.off);
-                                      flashState = false;
-                                    }
-                                  },
-                                ),
+                                // IconButton(
+                                //   iconSize: 50,
+                                //   icon: const Icon(
+                                //       Icons.picture_in_picture_alt_outlined),
+                                //   color: Colors.white,
+                                //   onPressed: () {
+                                //     if (flashState == false) {
+                                //       _cameraController!
+                                //           .setFlashMode(FlashMode.torch);
+                                //       setState(() {
+                                //         flashState = true;
+                                //       });
+                                //     } else {
+                                //       _cameraController!
+                                //           .setFlashMode(FlashMode.off);
+                                //       setState(() {
+                                //         flashState = false;
+                                //       });
+                                //     }
+                                //   },
+                                // ),
                                 Container(
                                   padding: const EdgeInsets.only(bottom: 50.0),
                                   child: Center(
@@ -138,22 +192,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                     ),
                                   ),
                                 ),
-                                IconButton(
-                                  iconSize: 50,
-                                  icon: const Icon(Icons.flash_on_sharp),
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    if (flashState == false) {
-                                      _cameraController!
-                                          .setFlashMode(FlashMode.torch);
-                                      flashState = true;
-                                    } else {
-                                      _cameraController!
-                                          .setFlashMode(FlashMode.off);
-                                      flashState = false;
-                                    }
-                                  },
-                                ),
+                                // IconButton(
+                                //   iconSize: 50,
+                                //   icon: const Icon(Icons.flash_on_sharp),
+                                //   color: Colors.white,
+                                //   onPressed: () {
+                                //     if (flashState == false) {
+                                //       _cameraController!
+                                //           .setFlashMode(FlashMode.torch);
+                                //       flashState = true;
+                                //     } else {
+                                //       _cameraController!
+                                //           .setFlashMode(FlashMode.off);
+                                //       flashState = false;
+                                //     }
+                                //   },
+                                // ),
                               ],
                             ),
                           ],
@@ -181,31 +235,53 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _isPermissionGranted = status == PermissionStatus.granted;
   }
 
-  Future<String?> _scanImage() async {
+  Future<void> _scanImage() async {
     final navigator = Navigator.of(context);
 
     try {
-      inputText = scannedText;
+      inputText = texts + scannedText;
+
+      // Show the loading dialog
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color(0xffb31c6e),
+            ),
+          );
+        },
+      );
+
+      //String answer = '';
 
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": scannedText})
-      ], maxToken: 700, model: kChatGptTurbo0301Model);
+        Map.of({"role": "user", "content": inputText})
+      ], maxToken: 210, model: kChatGptTurbo0301Model);
 
       final response = await openAI.onChatCompletion(request: request);
-      var answer;
       for (var element in response!.choices) {
         answer = element.message.content;
+        textScanned = true;
+
         break;
       }
 
+      // Hide the loading dialog
+      Navigator.pop(context);
+
+      // Show the interstitial ad
+      _showInterstitialAd();
+
       await navigator.push(
         MaterialPageRoute(
-          builder: (BuildContext context) => ResultScreen(text: answer),
+          builder: (BuildContext context) => ResultPage(text: answer),
         ),
       );
-
-      return answer;
     } catch (e) {
+      // Hide the loading dialog
+      Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('An error occurred when scanning text'),

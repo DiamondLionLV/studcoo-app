@@ -1,15 +1,9 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studcoo/Pages/Login/auth_page.dart';
-import 'package:studcoo/Pages/Login/login_without_password.dart';
-import 'package:studcoo/Pages/home.dart';
-import 'package:studcoo/components/button-white.dart';
+import 'package:studcoo/Pages/Login/forgot_password.dart';
 import 'package:studcoo/components/button.dart';
-import 'package:studcoo/components/square_tile.dart';
 import 'package:studcoo/components/textfield.dart';
-import 'package:studcoo/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   // final Function()? onTap;
@@ -106,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xffb31c6e),
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -138,9 +133,34 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                 ),
 
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height / 20,
-                // ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 40,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgotPasswordPage()));
+                        },
+                        child: const Text(
+                          "Forgot password?",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Color(0xffb31c6e),
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
                 // // signin without password button
                 // MyButtonWhite(

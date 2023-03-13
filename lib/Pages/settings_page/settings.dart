@@ -52,7 +52,7 @@ class _SettingsPagesState extends State<SettingsPages> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xffb31c6e),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

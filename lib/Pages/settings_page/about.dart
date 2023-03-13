@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studcoo/Pages/settings_page/profile.dart';
-import 'package:studcoo/Pages/settings_page/settings.dart';
 
 const List<String> iconNames = <String>[
   "assets/icons/profile_icon_round.svg",
@@ -45,7 +44,7 @@ class AboutPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xffb31c6e),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

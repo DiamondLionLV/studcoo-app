@@ -1,15 +1,10 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studcoo/Pages/Login/login.dart';
 import 'package:studcoo/Pages/Login/privacypolicy.dart';
 import 'package:studcoo/Pages/Login/termsofuse.dart';
 import 'package:studcoo/components/button.dart';
-import 'package:studcoo/components/square_tile.dart';
 import 'package:studcoo/components/textfield.dart';
-import 'package:studcoo/services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   //final Function()? onTap;
@@ -110,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xffb31c6e),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

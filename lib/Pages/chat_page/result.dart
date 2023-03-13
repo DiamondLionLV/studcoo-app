@@ -1,64 +1,24 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:studcoo/Pages/chat_page/constant.dart';
 import 'package:studcoo/Pages/variables.dart';
 import 'model.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+class ResultPage extends StatefulWidget {
+  final String text;
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const ResultPage({super.key, required this.text});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChatPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  State<ResultPage> createState() => _ResultPageState();
 }
 
 const backgroundColor = Colors.white;
 const botBackgroundColor = Colors.white;
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
-
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-// Future<String> generateResponse(String prompt) async {
-//   const apiKey = apiSecretKey;
-
-//   var url = Uri.https("api.openai.com", "/v1/completions");
-//   final response = await http.post(
-//     url,
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer $apiKey'
-//     },
-//     body: jsonEncode({
-//       "model": "text-davinci-003",
-//       "prompt": prompt,
-//       'temperature': 0.5,
-//       'max_tokens': 700,
-//       'top_p': 1.0,
-//       'frequency_penalty': 0.5,
-//       'presence_penalty': 0.0,
-//     }),
-//   );
-
-//   // Do something with the response
-//   String utf8body = utf8.decode(response.bodyBytes);
-//   Map<String, dynamic> newresponse = jsonDecode(utf8body);
-//   return newresponse['choices'][0]['text'];
-// }
-
-class _ChatPageState extends State<ChatPage> {
+class _ResultPageState extends State<ResultPage> {
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
@@ -124,6 +84,21 @@ class _ChatPageState extends State<ChatPage> {
             receiveTimeout: const Duration(seconds: 50),
             connectTimeout: const Duration(seconds: 50)),
         isLogger: true);
+
+    setState(() {
+      _messages.addAll([
+        ChatMessage(
+          text: scannedText,
+          chatMessageType: ChatMessageType.user,
+        ),
+      ]);
+      _messages.addAll([
+        ChatMessage(
+          text: answer,
+          chatMessageType: ChatMessageType.bot,
+        ),
+      ]);
+    });
   }
 
   @override
@@ -137,7 +112,7 @@ class _ChatPageState extends State<ChatPage> {
     String input = texts + prompt;
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": input})
-    ], maxToken: 210, model: kChatGptTurbo0301Model);
+    ], maxToken: 700, model: kChatGptTurbo0301Model);
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -151,22 +126,33 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
-        centerTitle: false,
-        leadingWidth: 0,
         shadowColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            "assets/icons/back_icon.svg",
+            width: 18,
+            height: 18,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Color(0xffb31c6e),
+        ),
         title: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            "Chat",
+            "Answer",
             maxLines: 1,
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: Color(0xffaa1578),
+              color: Color(0xffb31c6e),
               fontWeight: FontWeight.w700,
             ),
           ),
         ),
-        backgroundColor: botBackgroundColor,
+        backgroundColor: Colors.white,
       ),
       backgroundColor: backgroundColor,
       body: SafeArea(

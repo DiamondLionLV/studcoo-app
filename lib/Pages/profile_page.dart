@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          SizedBox(height: MediaQuery.of(context).size.height / 6.5),
+          SizedBox(height: MediaQuery.of(context).size.height / 10),
 
           // title text
           Row(
@@ -87,6 +87,62 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ],
+            ),
+          ),
+
+          SizedBox(height: MediaQuery.of(context).size.height / 30),
+
+          // Latvia hotline number
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xffaa1578),
+                      Color(0xffc22466),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: const AssetImage("assets/studcoo+.png"),
+                          width: MediaQuery.of(context).size.width / 3.5,
+                          height: MediaQuery.of(context).size.width / 3.5,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Text(
+                            "Coming soon",
+                            style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
 

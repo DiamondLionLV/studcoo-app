@@ -1,21 +1,11 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:studcoo/Pages/Login/auth_page.dart';
 import 'package:studcoo/Pages/Login/login.dart';
-import 'package:studcoo/Pages/Login/login_or_register_page.dart';
 import 'package:studcoo/Pages/Login/register_page.dart';
 import 'package:studcoo/Pages/variables.dart';
-import 'package:studcoo/components/button-boarding.dart';
-import 'package:studcoo/components/button-white.dart';
-import 'package:studcoo/components/button.dart';
-import 'package:studcoo/components/square_tile.dart';
-import 'package:studcoo/components/textfield.dart';
 import 'package:studcoo/services/auth_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingPage extends StatefulWidget {
   //final Function()? onTap;

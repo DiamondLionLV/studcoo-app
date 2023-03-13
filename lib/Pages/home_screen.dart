@@ -3,7 +3,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studcoo/Pages/chat_page/chat_page.dart';
 import 'package:studcoo/Pages/home.dart';
-import 'package:studcoo/Pages/info_page.dart';
 import 'package:studcoo/Pages/profile_page.dart';
 
 class HomeScreen extends StatefulWidget {

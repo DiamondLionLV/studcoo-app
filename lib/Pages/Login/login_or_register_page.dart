@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studcoo/Pages/Login/login.dart';
-import 'package:studcoo/Pages/Login/register_page.dart';
 import 'package:studcoo/Pages/variables.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {

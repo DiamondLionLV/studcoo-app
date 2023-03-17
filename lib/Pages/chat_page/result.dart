@@ -1,4 +1,6 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -27,6 +29,9 @@ class _ResultPageState extends State<ResultPage> {
 
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
+  dynamic timesScanned;
+  final user = FirebaseAuth.instance.currentUser!;
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   void _createInterstitialAd() {
     InterstitialAd.load(
@@ -34,13 +39,11 @@ class _ResultPageState extends State<ResultPage> {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
-            print('$ad loaded');
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
             _interstitialAd!.setImmersiveMode(true);
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error.');
             _numInterstitialLoadAttempts += 1;
             _interstitialAd = null;
             if (_numInterstitialLoadAttempts < 10) {
@@ -52,19 +55,14 @@ class _ResultPageState extends State<ResultPage> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      print('Warning: attempt to show interstitial before loaded.');
       return;
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _createInterstitialAd();
       },
@@ -113,6 +111,15 @@ class _ResultPageState extends State<ResultPage> {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": input})
     ], maxToken: 700, model: kChatGptTurbo0301Model);
+
+    final uid = user.uid;
+    final userEmail = user.email;
+
+    ref.update({'users/$uid/email': userEmail});
+
+    ref.update({
+      'users/$uid/questions/$prompt': prompt,
+    });
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {

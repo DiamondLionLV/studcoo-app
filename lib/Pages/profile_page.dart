@@ -5,10 +5,6 @@ import 'package:studcoo/Pages/settings_page/about.dart';
 import 'package:studcoo/Pages/settings_page/profile.dart';
 import 'package:studcoo/Pages/settings_page/settings.dart';
 
-const List<String> iconNames = <String>[
-  "assets/icons/profile_icon_round.svg",
-];
-
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
@@ -75,7 +71,7 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${user.email!}",
+                          user.email!,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -115,8 +111,8 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image(
-                          image: const AssetImage("assets/studcoo+.png"),
+                        Image.network(
+                          "https://cdn.discordapp.com/attachments/1084961612970074212/1085322015491240137/studcoo.png",
                           width: MediaQuery.of(context).size.width / 3.5,
                           height: MediaQuery.of(context).size.width / 3.5,
                         ),
@@ -230,7 +226,7 @@ class ProfilePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SettingsPages()),
+                                  builder: (context) => const SettingsPages()),
                             );
                           },
                           child: const Text(

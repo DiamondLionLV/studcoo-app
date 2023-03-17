@@ -52,7 +52,7 @@ class _ForgotPasswordSuccessPageState extends State<ForgotPasswordSuccessPage> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -75,11 +75,10 @@ class _ForgotPasswordSuccessPageState extends State<ForgotPasswordSuccessPage> {
 
                 SizedBox(height: MediaQuery.of(context).size.width / 3),
 
-                Image(
-                  image: const AssetImage(
-                      "assets/illustrations/envelope_with_arrow_illustration.png"),
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: MediaQuery.of(context).size.width / 2,
+                Image.network(
+                  "https://cdn.discordapp.com/attachments/1084961612970074212/1084967177628688454/party_popper_illustration.png",
+                  width: MediaQuery.of(context).size.height / 4,
+                  height: MediaQuery.of(context).size.height / 4,
                 ),
 
                 SizedBox(

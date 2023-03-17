@@ -51,7 +51,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -74,9 +74,8 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
 
                 SizedBox(height: MediaQuery.of(context).size.width / 3),
 
-                Image(
-                  image: const AssetImage(
-                      "assets/illustrations/envelope_with_arrow_illustration.png"),
+                Image.network(
+                  "https://cdn.discordapp.com/attachments/1084961612970074212/1084967151162626128/envelope_with_arrow_illustration.png",
                   width: MediaQuery.of(context).size.width / 2,
                   height: MediaQuery.of(context).size.width / 2,
                 ),

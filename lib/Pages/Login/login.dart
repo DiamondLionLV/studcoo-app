@@ -54,33 +54,24 @@ class _LoginPageState extends State<LoginPage> {
       // WRONG EMAIL
       if (e.code == 'user-not-found') {
         // show error to user
-        showErrorMessage('Wrong e-mail');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text("Check your email again, it isn't found in our database"),
+          ),
+        );
       }
 
       // WRONG PASSWORD
       else if (e.code == 'wrong-password') {
         // show error to user
-        showErrorMessage("Wrong password");
-      }
-    }
-  }
-
-  // error message to user
-  void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xff072f5f),
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Your password isn't correct"),
           ),
         );
-      },
-    );
+      }
+    }
   }
 
   @override
@@ -106,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

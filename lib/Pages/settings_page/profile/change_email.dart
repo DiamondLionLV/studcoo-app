@@ -60,7 +60,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

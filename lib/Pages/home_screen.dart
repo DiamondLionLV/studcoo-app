@@ -48,15 +48,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
-        color: Color.fromARGB(255, 0, 0, 0),
+        color: const Color.fromARGB(255, 0, 0, 0),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
           child: GNav(
             haptic: true,
-            backgroundColor: Color.fromARGB(255, 0, 0, 0),
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
             color: const Color(0xffaa1578),
             activeColor: const Color(0xffaa1578),
-            tabBackgroundColor: Color.fromARGB(255, 255, 255, 255),
+            tabBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
             padding: const EdgeInsets.all(15),
             iconSize: 30,
             gap: 8,

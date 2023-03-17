@@ -25,7 +25,7 @@ class MyButton extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(50),
           border: Border.all(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: const Color.fromARGB(255, 255, 255, 255),
           ),
         ),
         child: Center(

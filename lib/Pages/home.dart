@@ -1,4 +1,6 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -30,19 +32,39 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   late OpenAI openAI;
   int _numInterstitialLoadAttempts = 0;
 
+  final user = FirebaseAuth.instance.currentUser!;
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
+
+  void saveData() async {
+    final uid = user.uid;
+    int timesScanned = 0;
+
+    DataSnapshot snapshot = await ref.child('users/$uid/timesScanned').get();
+    if (snapshot.value != null) {
+      timesScanned = snapshot.value as int;
+    }
+
+    timesScanned++;
+    final userEmail = user.email;
+
+    ref.update({
+      'users/$uid/email': userEmail,
+      'users/$uid/timesScanned': timesScanned,
+      'users/$uid/questions/$scannedText': scannedText,
+    });
+  }
+
   void _createInterstitialAd() {
     InterstitialAd.load(
         adUnitId: "ca-app-pub-3940256099942544/4411468910",
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
-            print('$ad loaded');
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
             _interstitialAd!.setImmersiveMode(true);
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error.');
             _numInterstitialLoadAttempts += 1;
             _interstitialAd = null;
             if (_numInterstitialLoadAttempts < 10) {
@@ -54,19 +76,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      print('Warning: attempt to show interstitial before loaded.');
       return;
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _createInterstitialAd();
       },
@@ -183,8 +200,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                       style: ElevatedButton.styleFrom(
                                         fixedSize: const Size(70, 70),
                                         shape: const CircleBorder(),
-                                        primary: const Color(0xffc22466),
-                                        onPrimary: const Color(0xffaa1578),
+                                        backgroundColor:
+                                            const Color(0xffc22466),
+                                        foregroundColor:
+                                            const Color(0xffaa1578),
                                         side: const BorderSide(
                                             color: Color(0xffaa1578), width: 5),
                                       ),
@@ -266,6 +285,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
         break;
       }
+
+      saveData();
 
       // Hide the loading dialog
       Navigator.pop(context);

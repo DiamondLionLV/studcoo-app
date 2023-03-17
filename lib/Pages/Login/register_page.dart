@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studcoo/Pages/Login/login.dart';
-import 'package:studcoo/Pages/Login/privacypolicy.dart';
-import 'package:studcoo/Pages/Login/termsofuse.dart';
 import 'package:studcoo/components/button.dart';
 import 'package:studcoo/components/textfield.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
   //final Function()? onTap;
@@ -21,6 +20,21 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool? value = false;
+
+  final Uri privacypolicy = Uri.parse('https://studcoo.com/privacy-policy/');
+  final Uri termsofuse = Uri.parse('https://studcoo.com/terms-of-use/');
+
+  Future<void> _launchPP() async {
+    if (!await launchUrl(privacypolicy)) {
+      throw Exception('Could not launch $privacypolicy');
+    }
+  }
+
+  Future<void> _launchTOU() async {
+    if (!await launchUrl(termsofuse)) {
+      throw Exception('Could not launch $termsofuse');
+    }
+  }
 
   // sign user up method
   void signUserUp() async {
@@ -58,33 +72,23 @@ class _RegisterPageState extends State<RegisterPage> {
       // WRONG EMAIL
       if (e.code == 'user-not-found') {
         // show error to user
-        showErrorMessage('Nepareizs e-pasts');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Your emails doesn't match"),
+          ),
+        );
       }
 
       // WRONG PASSWORD
       else if (e.code == 'wrong-password') {
         // show error to user
-        showErrorMessage("Nepareiza parole");
-      }
-    }
-  }
-
-  // error message to user
-  void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xff072f5f),
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Your password isn't correct"),
           ),
         );
-      },
-    );
+      }
+    }
   }
 
   @override
@@ -141,13 +145,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: MediaQuery.of(context).size.width / 50,
               ),
 
-              // confirm password textfield
-              // MyTextField(
-              //   controller: confirmPasswordController,
-              //   hintText: 'Repeat password',
-              //   obscureText: true,
-              // ),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height / 90,
               ),
@@ -166,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       Checkbox(
-                        value: this.value,
+                        value: value,
                         onChanged: (bool? value) {
                           setState(
                             () {
@@ -177,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        activeColor: Color(0xffb31c6e),
+                        activeColor: const Color(0xffb31c6e),
                         checkColor: Colors.white,
                       ),
                     ],
@@ -195,13 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const TermsOfUsePage()),
-                          );
-                        },
+                        onTap: () => _launchTOU(),
                         child: const Text(
                           "Terms of Use",
                           style: TextStyle(
@@ -211,14 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PrivacyPolicyPage()),
-                          );
-                        },
+                        onTap: () => _launchPP(),
                         child: const Text(
                           "Privacy Policy",
                           style: TextStyle(

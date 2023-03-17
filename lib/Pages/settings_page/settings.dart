@@ -5,7 +5,7 @@ import 'package:studcoo/Pages/settings_page/settings/communication.dart';
 import 'package:studcoo/Pages/settings_page/settings/language.dart';
 
 class SettingsPages extends StatefulWidget {
-  SettingsPages({super.key});
+  const SettingsPages({super.key});
 
   @override
   State<SettingsPages> createState() => _SettingsPagesState();
@@ -20,8 +20,8 @@ class _SettingsPagesState extends State<SettingsPages> {
   }
 
   void redirectCommunication(context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => CommunicationPage()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const CommunicationPage()));
   }
 
   @override

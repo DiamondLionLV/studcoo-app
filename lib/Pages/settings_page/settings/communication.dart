@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CommunicationPage extends StatefulWidget {
-  CommunicationPage({super.key});
+  const CommunicationPage({super.key});
 
   @override
   State<CommunicationPage> createState() => _CommunicationPageState();
@@ -69,7 +69,7 @@ class _CommunicationPageState extends State<CommunicationPage> {
                     ),
                   ),
                   Checkbox(
-                    value: this.value,
+                    value: value,
                     onChanged: (bool? value) {
                       setState(
                         () {
@@ -80,7 +80,7 @@ class _CommunicationPageState extends State<CommunicationPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    activeColor: Color(0xffb31c6e),
+                    activeColor: const Color(0xffb31c6e),
                     checkColor: Colors.white,
                   ),
                 ],

@@ -1,4 +1,6 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:studcoo/Pages/chat_page/constant.dart';
@@ -31,33 +33,6 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-// Future<String> generateResponse(String prompt) async {
-//   const apiKey = apiSecretKey;
-
-//   var url = Uri.https("api.openai.com", "/v1/completions");
-//   final response = await http.post(
-//     url,
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer $apiKey'
-//     },
-//     body: jsonEncode({
-//       "model": "text-davinci-003",
-//       "prompt": prompt,
-//       'temperature': 0.5,
-//       'max_tokens': 700,
-//       'top_p': 1.0,
-//       'frequency_penalty': 0.5,
-//       'presence_penalty': 0.0,
-//     }),
-//   );
-
-//   // Do something with the response
-//   String utf8body = utf8.decode(response.bodyBytes);
-//   Map<String, dynamic> newresponse = jsonDecode(utf8body);
-//   return newresponse['choices'][0]['text'];
-// }
-
 class _ChatPageState extends State<ChatPage> {
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
@@ -67,6 +42,8 @@ class _ChatPageState extends State<ChatPage> {
 
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
+  final user = FirebaseAuth.instance.currentUser!;
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   void _createInterstitialAd() {
     InterstitialAd.load(
@@ -74,13 +51,11 @@ class _ChatPageState extends State<ChatPage> {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
-            print('$ad loaded');
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
             _interstitialAd!.setImmersiveMode(true);
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error.');
             _numInterstitialLoadAttempts += 1;
             _interstitialAd = null;
             if (_numInterstitialLoadAttempts < 10) {
@@ -92,19 +67,14 @@ class _ChatPageState extends State<ChatPage> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      print('Warning: attempt to show interstitial before loaded.');
       return;
     }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _createInterstitialAd();
       },
@@ -138,6 +108,15 @@ class _ChatPageState extends State<ChatPage> {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": input})
     ], maxToken: 210, model: kChatGptTurbo0301Model);
+
+    final uid = user.uid;
+    final userEmail = user.email;
+
+    ref.update({'users/$uid/email': userEmail});
+
+    ref.update({
+      'users/$uid/questions/$prompt': prompt,
+    });
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {

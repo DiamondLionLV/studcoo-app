@@ -22,7 +22,7 @@ class _PasswordChangedSuccessPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -45,9 +45,8 @@ class _PasswordChangedSuccessPageState
 
                 SizedBox(height: MediaQuery.of(context).size.height / 8),
 
-                Image(
-                  image: const AssetImage(
-                      "assets/illustrations/party_popper_illustration.png"),
+                Image.network(
+                  "https://cdn.discordapp.com/attachments/1084961612970074212/1084967177628688454/party_popper_illustration.png",
                   width: MediaQuery.of(context).size.height / 4,
                   height: MediaQuery.of(context).size.height / 4,
                 ),

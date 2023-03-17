@@ -45,7 +45,7 @@ class LanguagePage extends StatelessWidget {
           SizedBox(height: MediaQuery.of(context).size.width / 10),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
               controller: searchController,
               cursorColor: const Color(0xffb31c6e),

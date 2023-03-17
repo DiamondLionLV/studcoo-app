@@ -5,6 +5,8 @@ import 'package:studcoo/Pages/settings_page/profile/password_success.dart';
 import 'package:studcoo/components/button.dart';
 
 class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
+
   @override
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }

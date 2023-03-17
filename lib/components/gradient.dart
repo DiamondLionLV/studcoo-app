@@ -7,7 +7,8 @@ class GradientSvgIcon extends StatelessWidget {
   final double width;
   final double height;
 
-  GradientSvgIcon({
+  const GradientSvgIcon({
+    super.key,
     required this.svgAssetPath,
     required this.gradient,
     required this.width,

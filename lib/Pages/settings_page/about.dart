@@ -2,15 +2,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studcoo/Pages/settings_page/profile.dart';
-
-const List<String> iconNames = <String>[
-  "assets/icons/profile_icon_round.svg",
-];
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   AboutPage({super.key});
 
   final user = FirebaseAuth.instance.currentUser!;
+  final Uri privacypolicy = Uri.parse('https://studcoo.com/privacy-policy/');
+  final Uri termsofuse = Uri.parse('https://studcoo.com/terms-of-use/');
+
+  Future<void> _launchPP() async {
+    if (!await launchUrl(privacypolicy)) {
+      throw Exception('Could not launch $privacypolicy');
+    }
+  }
+
+  Future<void> _launchTOU() async {
+    if (!await launchUrl(termsofuse)) {
+      throw Exception('Could not launch $termsofuse');
+    }
+  }
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
@@ -210,11 +221,7 @@ class AboutPage extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePages()),
-                              );
+                              _launchTOU();
                             },
                             child: const Text(
                               "Terms of Use",
@@ -250,11 +257,7 @@ class AboutPage extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePages()),
-                              );
+                              _launchPP();
                             },
                             child: const Text(
                               "Privacy Policy",

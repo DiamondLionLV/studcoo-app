@@ -1,117 +1,48 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:studcoo/Pages/Login/login.dart';
 import 'package:studcoo/Pages/Login/register_page.dart';
-import 'package:studcoo/Pages/variables.dart';
 import 'package:studcoo/services/auth_service.dart';
 
 class OnboardingPage extends StatefulWidget {
   //final Function()? onTap;
-  //const OnboardingPage({super.key, required this.onTap});
+  const OnboardingPage({super.key});
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  // text editing controllers
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  void togglePages() {
-    setState(() {
-      showLoginPage = !showLoginPage;
-    });
-  }
-
-  // sign in anonymously
-  void signInAnon() async {
-    final aUser = FirebaseAuth.instance.signInAnonymously();
-  }
-
-  // sign user in method
-  void signUserIn() async {
-    // show loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: Color.fromARGB(255, 19, 89, 142),
-          ),
-        );
-      },
-    );
-
-    // try sign in
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-
-      // pop the loading circle
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      // pop the loading circle
-      Navigator.pop(context);
-
-      // WRONG EMAIL
-      if (e.code == 'user-not-found') {
-        // show error to user
-        showErrorMessage('Wrong e-mail');
-      }
-
-      // WRONG PASSWORD
-      else if (e.code == 'wrong-password') {
-        // show error to user
-        showErrorMessage("Wrong password");
-      }
-    }
-  }
-
-  // error message to user
-  void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xff072f5f),
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.width / 10),
+                SizedBox(height: MediaQuery.of(context).size.height / 12),
 
-                Image.asset(
-                  'assets/studcoo_full-logo_colored.png',
+                Image.network(
+                    'https://cdn.discordapp.com/attachments/1084961612970074212/1084961691114156032/apple_and_books_illustration.png',
+                    width: MediaQuery.of(context).size.height / 4,
+                    height: MediaQuery.of(context).size.height / 4),
+
+                SizedBox(height: MediaQuery.of(context).size.width / 7),
+
+                Image.network(
+                  'https://cdn.discordapp.com/attachments/1084961612970074212/1085319306927153213/studcoo_full-logo_colored.png',
                   width: MediaQuery.of(context).size.width / 1.5,
                   height: MediaQuery.of(context).size.height / 20,
                 ),
 
-                SizedBox(height: MediaQuery.of(context).size.width / 35),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
 
                 Text(
-                  "Accelerate Your Learning",
+                  "Scan, ask.\nLearn anything.",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: const Color(0xffb31c6e),
                     fontSize: MediaQuery.of(context).size.width / 21,
@@ -120,15 +51,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                 ),
 
-                SizedBox(height: MediaQuery.of(context).size.width / 10),
-
-                Lottie.asset(
-                    'assets/learning_boy_animation_lottie_onboarding.json',
-                    width: MediaQuery.of(context).size.width / 1,
-                    height: MediaQuery.of(context).size.height / 3.5),
-
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 7.5,
+                  height: MediaQuery.of(context).size.height / 6,
                 ),
 
                 // sign in button
@@ -175,80 +99,83 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ),
 
                 // google login button
-                Platform.isAndroid
-                    ? ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 25,
-                              horizontal:
-                                  MediaQuery.of(context).size.width / 5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          side: const BorderSide(
-                            width: 3,
-                            color: Color(0xffb31c6e),
-                          ),
-                        ),
-                        onPressed: () => AuthService().signInWithGoogle(),
-                        icon: Image.asset(
-                          "lib/images/google.png",
-                          height: 20,
-                        ),
-                        label: const Text(
-                          'Continue with Google',
-                          style: TextStyle(
-                            color: Color(0xffb31c6e),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      )
-                    : ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 25,
-                              horizontal:
-                                  MediaQuery.of(context).size.width / 5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          side: const BorderSide(
-                            width: 3,
-                            color: Color(0xffb31c6e),
-                          ),
-                        ),
-                        onPressed: () => AuthService().signInWithGoogle(),
-                        icon: Image.asset(
-                          "lib/images/apple.png",
-                          height: 20,
-                        ),
-                        label: const Text(
-                          'Continue with Apple',
-                          style: TextStyle(
-                            color: Color(0xffb31c6e),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                // Platform.isAndroid
+                //     ? ElevatedButton.icon(
+                //         style: ElevatedButton.styleFrom(
+                //           backgroundColor: Colors.white,
+                //           padding: EdgeInsets.symmetric(
+                //               vertical: 25,
+                //               horizontal:
+                //                   MediaQuery.of(context).size.width / 5),
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(50),
+                //           ),
+                //           side: const BorderSide(
+                //             width: 3,
+                //             color: Color(0xffb31c6e),
+                //           ),
+                //         ),
+                //         onPressed: () {
+                //           AuthService().signInWithGoogle();
+                //           // Navigator.push(
+                //           //   context,
+                //           //   MaterialPageRoute(
+                //           //       builder: (context) => const AuthPage()),
+                //           // );
+                //         },
+                //         icon: Image.asset(
+                //           "lib/images/google.png",
+                //           height: 20,
+                //         ),
+                //         label: const Text(
+                //           'Continue with Google',
+                //           style: TextStyle(
+                //             color: Color(0xffb31c6e),
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 16,
+                //           ),
+                //         ),
+                //       )
+                //     : ElevatedButton.icon(
+                //         style: ElevatedButton.styleFrom(
+                //           backgroundColor: Colors.white,
+                //           padding: EdgeInsets.symmetric(
+                //               vertical: 25,
+                //               horizontal:
+                //                   MediaQuery.of(context).size.width / 5),
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(50),
+                //           ),
+                //           side: const BorderSide(
+                //             width: 3,
+                //             color: Color(0xffb31c6e),
+                //           ),
+                //         ),
+                //         onPressed: () {
+                //           AuthService().signInWithApple();
+                //           // Navigator.push(
+                //           //   context,
+                //           //   MaterialPageRoute(
+                //           //       builder: (context) => const AuthPage()),
+                //           // );
+                //         },
+                //         icon: Image.asset(
+                //           "lib/images/apple.png",
+                //           height: 20,
+                //         ),
+                //         label: const Text(
+                //           'Continue with Apple',
+                //           style: TextStyle(
+                //             color: Color(0xffb31c6e),
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 16,
+                //           ),
+                //         ),
+                //       ),
 
                 SizedBox(
                   height: MediaQuery.of(context).size.width / 25,
                 ),
-
-                // anonymous sign in
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     MyButton(
-                //       onTap: signInAnon,
-                //       text: '   Login Anon   ',
-                //     ),
-                //   ],
-                // ),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(

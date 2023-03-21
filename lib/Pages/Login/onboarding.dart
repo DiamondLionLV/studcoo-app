@@ -52,7 +52,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ),
 
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 6,
+                  height: MediaQuery.of(context).size.height / 9,
                 ),
 
                 // sign in button
@@ -65,9 +65,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(25),
+                    padding:
+                        const EdgeInsets.all(25), // adjust percentage as needed
                     margin: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 15),
+                        horizontal: MediaQuery.of(context).size.width *
+                            0.07), // adjust percentage as needed
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.topRight,
@@ -98,80 +100,82 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   height: MediaQuery.of(context).size.width / 30,
                 ),
 
-                // google login button
-                // Platform.isAndroid
-                //     ? ElevatedButton.icon(
-                //         style: ElevatedButton.styleFrom(
-                //           backgroundColor: Colors.white,
-                //           padding: EdgeInsets.symmetric(
-                //               vertical: 25,
-                //               horizontal:
-                //                   MediaQuery.of(context).size.width / 5),
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(50),
-                //           ),
-                //           side: const BorderSide(
-                //             width: 3,
-                //             color: Color(0xffb31c6e),
-                //           ),
-                //         ),
-                //         onPressed: () {
-                //           AuthService().signInWithGoogle();
-                //           // Navigator.push(
-                //           //   context,
-                //           //   MaterialPageRoute(
-                //           //       builder: (context) => const AuthPage()),
-                //           // );
-                //         },
-                //         icon: Image.asset(
-                //           "lib/images/google.png",
-                //           height: 20,
-                //         ),
-                //         label: const Text(
-                //           'Continue with Google',
-                //           style: TextStyle(
-                //             color: Color(0xffb31c6e),
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 16,
-                //           ),
-                //         ),
-                //       )
-                //     : ElevatedButton.icon(
-                //         style: ElevatedButton.styleFrom(
-                //           backgroundColor: Colors.white,
-                //           padding: EdgeInsets.symmetric(
-                //               vertical: 25,
-                //               horizontal:
-                //                   MediaQuery.of(context).size.width / 5),
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(50),
-                //           ),
-                //           side: const BorderSide(
-                //             width: 3,
-                //             color: Color(0xffb31c6e),
-                //           ),
-                //         ),
-                //         onPressed: () {
-                //           AuthService().signInWithApple();
-                //           // Navigator.push(
-                //           //   context,
-                //           //   MaterialPageRoute(
-                //           //       builder: (context) => const AuthPage()),
-                //           // );
-                //         },
-                //         icon: Image.asset(
-                //           "lib/images/apple.png",
-                //           height: 20,
-                //         ),
-                //         label: const Text(
-                //           'Continue with Apple',
-                //           style: TextStyle(
-                //             color: Color(0xffb31c6e),
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 16,
-                //           ),
-                //         ),
-                //       ),
+                //google login button
+                Platform.isAndroid
+                    ? GestureDetector(
+                        onTap: () => AuthService().signInWithGoogle(),
+                        child: Container(
+                          padding: const EdgeInsets.all(25),
+                          margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.07,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 3,
+                              color: const Color(0xffb31c6e),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "lib/images/google.png",
+                                width: MediaQuery.of(context).size.width / 25,
+                                height: MediaQuery.of(context).size.width / 25,
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  color: Color(0xffb31c6e),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () => AuthService().signInWithApple(),
+                        child: Container(
+                          padding: const EdgeInsets.all(25),
+                          margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.07,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 3,
+                              color: const Color(0xffb31c6e),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "lib/images/apple.png",
+                                width: MediaQuery.of(context).size.width / 25,
+                                height: MediaQuery.of(context).size.width / 25,
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Sign in with Apple',
+                                style: TextStyle(
+                                  color: Color(0xffb31c6e),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
 
                 SizedBox(
                   height: MediaQuery.of(context).size.width / 25,

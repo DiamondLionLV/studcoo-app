@@ -50,7 +50,7 @@ dependencies:
   flutter_scalable_ocr:
     git:
       url: https://github.com/DiamondLionLV/flutter_scalable_ocr.git
-      ref: 65872f36b525926e358a4e41e313fbfdab24b2f5
+      ref: b11abcce2fc87ad49ba90f09ee282051080549e3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -114,6 +114,7 @@ flutter:
     - assets/icons/back_icon.svg
     - assets/icons/language_icon.svg
     - assets/flags/globe.png
+    - assets/icons/scan_button.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

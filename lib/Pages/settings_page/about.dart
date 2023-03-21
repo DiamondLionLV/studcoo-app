@@ -10,6 +10,13 @@ class AboutPage extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
   final Uri privacypolicy = Uri.parse('https://studcoo.com/privacy-policy/');
   final Uri termsofuse = Uri.parse('https://studcoo.com/terms-of-use/');
+  final Uri socialmedia = Uri.parse('https://studcoo.com/social-media/');
+
+  Future<void> _launchSM() async {
+    if (!await launchUrl(socialmedia)) {
+      throw Exception('Could not launch $socialmedia');
+    }
+  }
 
   Future<void> _launchPP() async {
     if (!await launchUrl(privacypolicy)) {
@@ -91,7 +98,7 @@ class AboutPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                 child: Text(
-                  'Build version 2',
+                  'Build version 1',
                   style: TextStyle(
                     color: Color(0xffb31c6e),
                     fontSize: 13,
@@ -109,7 +116,7 @@ class AboutPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                 child: Text(
-                  'Codepush version 2',
+                  'Codepush version 1',
                   style: TextStyle(
                     color: Color(0xffb31c6e),
                     fontSize: 13,
@@ -123,48 +130,40 @@ class AboutPage extends StatelessWidget {
 
           SizedBox(height: MediaQuery.of(context).size.height / 20),
 
-          // Latvia hotline number
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePages()),
-                              );
-                            },
-                            child: const Text(
-                              "Rate the app",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffb31c6e),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height / 20),
+          // Rate the app
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.start,
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Row(
+          //               children: const [
+          //                 Text(
+          //                   "Rate the app",
+          //                   style: TextStyle(
+          //                     fontSize: 20,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Color(0xffb31c6e),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
-          // Latvia hotline number
+          // SizedBox(height: MediaQuery.of(context).size.height / 20),
+
+          // Like us on social media
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
@@ -179,13 +178,7 @@ class AboutPage extends StatelessWidget {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePages()),
-                              );
-                            },
+                            onTap: () => _launchSM(),
                             child: const Text(
                               "Like us on social media",
                               style: TextStyle(
@@ -203,6 +196,7 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
+
           SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Latvia hotline number
@@ -276,37 +270,38 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height / 20),
-          // Latvia hotline number
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: const [
-                          Text(
-                            "Licenses",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xffb31c6e),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+
+          // SizedBox(height: MediaQuery.of(context).size.height / 20),
+
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.start,
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Row(
+          //               children: const [
+          //                 Text(
+          //                   "Licenses",
+          //                   style: TextStyle(
+          //                     fontSize: 20,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: Color(0xffb31c6e),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

@@ -306,8 +306,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "65872f36b525926e358a4e41e313fbfdab24b2f5"
-      resolved-ref: "65872f36b525926e358a4e41e313fbfdab24b2f5"
+      ref: b11abcce2fc87ad49ba90f09ee282051080549e3
+      resolved-ref: b11abcce2fc87ad49ba90f09ee282051080549e3
       url: "https://github.com/DiamondLionLV/flutter_scalable_ocr.git"
     source: git
     version: "1.0.1"

@@ -4,11 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studcoo/Pages/settings_page/about.dart';
 import 'package:studcoo/Pages/settings_page/profile.dart';
 import 'package:studcoo/Pages/settings_page/settings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final user = FirebaseAuth.instance.currentUser!;
+  final Uri help = Uri.parse('https://studcoo.com/help/');
+
+  Future<void> _launchHelp() async {
+    if (!await launchUrl(help)) {
+      throw Exception('Could not launch $help');
+    }
+  }
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
@@ -324,13 +332,16 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Text(
-                          "Help",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb31c6e),
+                      children: [
+                        GestureDetector(
+                          onTap: () => _launchHelp(),
+                          child: const Text(
+                            "Help",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffb31c6e),
+                            ),
                           ),
                         ),
                       ],

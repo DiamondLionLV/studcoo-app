@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
@@ -192,22 +193,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                 //     }
                                 //   },
                                 // ),
-                                Container(
-                                  padding: const EdgeInsets.only(bottom: 50.0),
-                                  child: Center(
-                                    child: ElevatedButton(
-                                      onPressed: _scanImage,
-                                      style: ElevatedButton.styleFrom(
-                                        fixedSize: const Size(70, 70),
-                                        shape: const CircleBorder(),
-                                        backgroundColor:
-                                            const Color(0xffc22466),
-                                        foregroundColor:
-                                            const Color(0xffaa1578),
-                                        side: const BorderSide(
-                                            color: Color(0xffaa1578), width: 5),
+                                GestureDetector(
+                                  onTap: () => _scanImage(),
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 50.0),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        "assets/icons/scan_button.svg",
+                                        width:
+                                            MediaQuery.of(context).size.height /
+                                                10,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                10,
                                       ),
-                                      child: const Text(' '),
                                     ),
                                   ),
                                 ),

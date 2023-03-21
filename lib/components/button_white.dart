@@ -11,8 +11,9 @@ class MyButtonWhite extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.symmetric(horizontal: 70),
+        padding: const EdgeInsets.all(25),
+        margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 15),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(50),

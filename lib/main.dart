@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:studcoo/Pages/Login/auth_page.dart';
 import 'firebase_options.dart';
@@ -10,8 +11,11 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   MobileAds.instance.initialize();
-
-  runApp(const Main());
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp]) // disables horizontal rotation
+      .then((_) {
+    runApp(const Main());
+  });
 }
 
 class Main extends StatelessWidget {
@@ -26,6 +30,10 @@ class Main extends StatelessWidget {
         fontFamily: 'Quicksand',
         unselectedWidgetColor: const Color(0xffb31c6e),
       ),
+      // routes: {
+      //   '/': (context) => SplashScreen(),
+      //   '/home': (context) => const AuthPage(),
+      // },
       home: const AuthPage(),
     );
   }

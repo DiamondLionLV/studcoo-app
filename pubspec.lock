@@ -306,8 +306,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: b11abcce2fc87ad49ba90f09ee282051080549e3
-      resolved-ref: b11abcce2fc87ad49ba90f09ee282051080549e3
+      ref: "3c71b4464b2af8959e5d170f8bdbb2b2b54ce905"
+      resolved-ref: "3c71b4464b2af8959e5d170f8bdbb2b2b54ce905"
       url: "https://github.com/DiamondLionLV/flutter_scalable_ocr.git"
     source: git
     version: "1.0.1"
@@ -346,7 +346,7 @@ packages:
     source: hosted
     version: "0.2.0"
   google_mlkit_text_recognition:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_mlkit_text_recognition
       sha256: "6dc31f02beb1cfd6818da4bf29bf4ae5f4f9e16422c1efd0b515ed0756d73b8e"
@@ -413,10 +413,10 @@ packages:
     dependency: transitive
     description:
       name: html
-      sha256: d9793e10dbe0e6c364f4c59bf3e01fb33a9b2a674bc7a1081693dba0614b6269
+      sha256: "79d498e6d6761925a34ee5ea8fa6dfef38607781d2fa91e37523474282af55cb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.1"
+    version: "0.15.2"
   http:
     dependency: "direct main"
     description:

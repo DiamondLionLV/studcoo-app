@@ -13,19 +13,28 @@ class AboutPage extends StatelessWidget {
   final Uri socialmedia = Uri.parse('https://studcoo.com/social-media/');
 
   Future<void> _launchSM() async {
-    if (!await launchUrl(socialmedia)) {
+    if (await canLaunch(socialmedia.toString())) {
+      await launch(socialmedia.toString(),
+          forceSafariVC: false, forceWebView: false);
+    } else {
       throw Exception('Could not launch $socialmedia');
     }
   }
 
   Future<void> _launchPP() async {
-    if (!await launchUrl(privacypolicy)) {
+    if (await canLaunch(privacypolicy.toString())) {
+      await launch(privacypolicy.toString(),
+          forceSafariVC: false, forceWebView: false);
+    } else {
       throw Exception('Could not launch $privacypolicy');
     }
   }
 
   Future<void> _launchTOU() async {
-    if (!await launchUrl(termsofuse)) {
+    if (await canLaunch(termsofuse.toString())) {
+      await launch(termsofuse.toString(),
+          forceSafariVC: false, forceWebView: false);
+    } else {
       throw Exception('Could not launch $termsofuse');
     }
   }

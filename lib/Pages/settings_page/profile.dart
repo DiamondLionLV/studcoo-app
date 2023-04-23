@@ -15,7 +15,7 @@ class ProfilePages extends StatelessWidget {
     FirebaseAuth.instance.signOut();
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => OnboardingPage()),
+      MaterialPageRoute(builder: (context) => const OnboardingPage()),
     );
   }
 
@@ -43,7 +43,7 @@ class ProfilePages extends StatelessWidget {
   void redirectUserChangePassword(context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+      MaterialPageRoute(builder: (context) => const ChangePasswordPage()),
     );
   }
 

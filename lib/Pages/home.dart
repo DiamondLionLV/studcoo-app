@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -56,23 +58,43 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void _createInterstitialAd() {
-    InterstitialAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/4411468910",
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad) {
-            _interstitialAd = ad;
-            _numInterstitialLoadAttempts = 0;
-            _interstitialAd!.setImmersiveMode(true);
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            _numInterstitialLoadAttempts += 1;
-            _interstitialAd = null;
-            if (_numInterstitialLoadAttempts < 10) {
-              _createInterstitialAd();
-            }
-          },
-        ));
+    Platform.isAndroid
+        ? InterstitialAd.load(
+            adUnitId:
+                "ca-app-pub-7853576193507241/3418491286", // ca-app-pub-7853576193507241/3418491286
+            request: const AdRequest(),
+            adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: (InterstitialAd ad) {
+                _interstitialAd = ad;
+                _numInterstitialLoadAttempts = 0;
+                _interstitialAd!.setImmersiveMode(true);
+              },
+              onAdFailedToLoad: (LoadAdError error) {
+                _numInterstitialLoadAttempts += 1;
+                _interstitialAd = null;
+                if (_numInterstitialLoadAttempts < 10) {
+                  _createInterstitialAd();
+                }
+              },
+            ))
+        : InterstitialAd.load(
+            adUnitId:
+                "ca-app-pub-7853576193507241/8004364903", // ca-app-pub-7853576193507241/8004364903
+            request: const AdRequest(),
+            adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: (InterstitialAd ad) {
+                _interstitialAd = ad;
+                _numInterstitialLoadAttempts = 0;
+                _interstitialAd!.setImmersiveMode(true);
+              },
+              onAdFailedToLoad: (LoadAdError error) {
+                _numInterstitialLoadAttempts += 1;
+                _interstitialAd = null;
+                if (_numInterstitialLoadAttempts < 10) {
+                  _createInterstitialAd();
+                }
+              },
+            ));
   }
 
   void _showInterstitialAd() {

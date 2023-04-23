@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -34,23 +36,43 @@ class _ResultPageState extends State<ResultPage> {
   DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   void _createInterstitialAd() {
-    InterstitialAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/4411468910",
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad) {
-            _interstitialAd = ad;
-            _numInterstitialLoadAttempts = 0;
-            _interstitialAd!.setImmersiveMode(true);
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            _numInterstitialLoadAttempts += 1;
-            _interstitialAd = null;
-            if (_numInterstitialLoadAttempts < 10) {
-              _createInterstitialAd();
-            }
-          },
-        ));
+    Platform.isAndroid
+        ? InterstitialAd.load(
+            adUnitId:
+                "ca-app-pub-7853576193507241/3418491286", // ca-app-pub-7853576193507241/3418491286
+            request: const AdRequest(),
+            adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: (InterstitialAd ad) {
+                _interstitialAd = ad;
+                _numInterstitialLoadAttempts = 0;
+                _interstitialAd!.setImmersiveMode(true);
+              },
+              onAdFailedToLoad: (LoadAdError error) {
+                _numInterstitialLoadAttempts += 1;
+                _interstitialAd = null;
+                if (_numInterstitialLoadAttempts < 10) {
+                  _createInterstitialAd();
+                }
+              },
+            ))
+        : InterstitialAd.load(
+            adUnitId:
+                "ca-app-pub-7853576193507241/8004364903", // ca-app-pub-7853576193507241/8004364903
+            request: const AdRequest(),
+            adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: (InterstitialAd ad) {
+                _interstitialAd = ad;
+                _numInterstitialLoadAttempts = 0;
+                _interstitialAd!.setImmersiveMode(true);
+              },
+              onAdFailedToLoad: (LoadAdError error) {
+                _numInterstitialLoadAttempts += 1;
+                _interstitialAd = null;
+                if (_numInterstitialLoadAttempts < 10) {
+                  _createInterstitialAd();
+                }
+              },
+            ));
   }
 
   void _showInterstitialAd() {
@@ -108,23 +130,41 @@ class _ResultPageState extends State<ResultPage> {
 
   Future generateResponse(String prompt) async {
     String input = texts + prompt;
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": input})
-    ], maxToken: 700, model: kChatGptTurbo0301Model);
+    String errorMessage = "Invalid input, please enter a valid input.";
 
-    final uid = user.uid;
-    final userEmail = user.email;
+    if (prompt.trim().isEmpty ||
+        prompt.replaceAll(RegExp(r'[^\w\s]+'), '').trim().isEmpty ||
+        prompt == " ") {
+      return setState(
+        () {
+          _messages.add(
+            ChatMessage(
+              text: errorMessage,
+              chatMessageType: ChatMessageType.bot,
+            ),
+          );
+          isLoading = true;
+        },
+      );
+    } else {
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": input})
+      ], maxToken: 700, model: kChatGptTurbo0301Model);
 
-    ref.update({'users/$uid/email': userEmail});
+      final uid = user.uid;
+      final userEmail = user.email;
 
-    ref.update({
-      'users/$uid/questions/$prompt': prompt,
-    });
+      ref.update({'users/$uid/email': userEmail});
 
-    final response = await openAI.onChatCompletion(request: request);
-    for (var element in response!.choices) {
-      //print("data -> ${element.message.content}");
-      return element.message.content;
+      ref.update({
+        'users/$uid/questions/$prompt': prompt,
+      });
+
+      final response = await openAI.onChatCompletion(request: request);
+      for (var element in response!.choices) {
+        //print("data -> ${element.message.content}");
+        return element.message.content;
+      }
     }
   }
 

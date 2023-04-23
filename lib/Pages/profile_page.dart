@@ -13,7 +13,9 @@ class ProfilePage extends StatelessWidget {
   final Uri help = Uri.parse('https://studcoo.com/help/');
 
   Future<void> _launchHelp() async {
-    if (!await launchUrl(help)) {
+    if (await canLaunch(help.toString())) {
+      await launch(help.toString(), forceSafariVC: false, forceWebView: false);
+    } else {
       throw Exception('Could not launch $help');
     }
   }

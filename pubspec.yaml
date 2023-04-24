@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_core: ^2.7.1
-  firebase_auth: ^4.2.10
   firebase_database: ^10.0.15
   google_sign_in: ^6.0.2
   flutter_native_splash: ^2.2.9
@@ -97,8 +96,7 @@ flutter:
   assets:
     - assets/splash.png
     - assets/logo.png
-    - lib/images/google.png
-    - lib/images/apple.png
+    - assets/studcoo+.png
 
     # ICONS
     - assets/icons/profile_icon_round.svg

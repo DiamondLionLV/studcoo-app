@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scalable_ocr/flutter_scalable_ocr.dart';
@@ -35,25 +34,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   late OpenAI openAI;
   int _numInterstitialLoadAttempts = 0;
 
-  final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   void saveData() async {
-    final uid = user.uid;
     int timesScanned = 0;
 
-    DataSnapshot snapshot = await ref.child('users/$uid/timesScanned').get();
+    DataSnapshot snapshot = await ref.child('timesScanned').get();
     if (snapshot.value != null) {
       timesScanned = snapshot.value as int;
     }
 
     timesScanned++;
-    final userEmail = user.email;
 
     ref.update({
-      'users/$uid/email': userEmail,
-      'users/$uid/timesScanned': timesScanned,
-      'users/$uid/questions/$scannedText': scannedText,
+      'timesScanned': timesScanned,
+      'questions/$scannedText': scannedText,
     });
   }
 

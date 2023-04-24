@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studcoo/Pages/settings_page/settings/communication.dart';
@@ -12,8 +11,6 @@ class SettingsPages extends StatefulWidget {
 }
 
 class _SettingsPagesState extends State<SettingsPages> {
-  final user = FirebaseAuth.instance.currentUser!;
-
   void redirectLanguage(context) {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LanguagePage()));

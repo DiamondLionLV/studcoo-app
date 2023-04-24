@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:studcoo/Pages/Login/auth_page.dart';
+import 'package:studcoo/Pages/home_screen.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -34,7 +34,7 @@ class Main extends StatelessWidget {
       //   '/': (context) => SplashScreen(),
       //   '/home': (context) => const AuthPage(),
       // },
-      home: const AuthPage(),
+      home: const HomeScreen(),
     );
   }
 }

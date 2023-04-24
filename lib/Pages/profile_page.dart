@@ -1,15 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studcoo/Pages/settings_page/about.dart';
-import 'package:studcoo/Pages/settings_page/profile.dart';
 import 'package:studcoo/Pages/settings_page/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
-  final user = FirebaseAuth.instance.currentUser!;
   final Uri help = Uri.parse('https://studcoo.com/help/');
 
   Future<void> _launchHelp() async {
@@ -18,10 +15,6 @@ class ProfilePage extends StatelessWidget {
     } else {
       throw Exception('Could not launch $help');
     }
-  }
-
-  void signUserOut() {
-    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -51,51 +44,6 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height / 35),
-
-          // Latvia hotline number
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icons/profile_icon_round.svg",
-                        width: 70,
-                        height: 70,
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user.email!,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffb31c6e),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
           SizedBox(height: MediaQuery.of(context).size.height / 30),
 
           // Latvia hotline number
@@ -121,8 +69,8 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.network(
-                          "https://cdn.discordapp.com/attachments/1084961612970074212/1085322015491240137/studcoo.png",
+                        Image.asset(
+                          "assets/studcoo+.png",
                           width: MediaQuery.of(context).size.width / 3.5,
                           height: MediaQuery.of(context).size.width / 3.5,
                         ),
@@ -149,58 +97,6 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-
-          SizedBox(height: MediaQuery.of(context).size.height / 20),
-
-          // Latvia hotline number
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icons/profile_icon.svg",
-                        width: 30,
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfilePages()),
-                            );
-                          },
-                          child: const Text(
-                            "Profile",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xffb31c6e),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
             ),
           ),
 

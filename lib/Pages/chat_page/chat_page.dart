@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -44,7 +43,6 @@ class _ChatPageState extends State<ChatPage> {
 
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
-  final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   void _createInterstitialAd() {
@@ -148,13 +146,8 @@ class _ChatPageState extends State<ChatPage> {
         Map.of({"role": "user", "content": input})
       ], maxToken: 210, model: kChatGptTurbo0301Model);
 
-      final uid = user.uid;
-      final userEmail = user.email;
-
-      ref.update({'users/$uid/email': userEmail});
-
       ref.update({
-        'users/$uid/questions/$prompt': prompt,
+        'questions/$prompt': prompt,
       });
 
       final response = await openAI.onChatCompletion(request: request);

@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:studcoo/Pages/settings_page/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   AboutPage({super.key});
 
-  final user = FirebaseAuth.instance.currentUser!;
   final Uri privacypolicy = Uri.parse('https://studcoo.com/privacy-policy/');
   final Uri termsofuse = Uri.parse('https://studcoo.com/terms-of-use/');
   final Uri socialmedia = Uri.parse('https://studcoo.com/social-media/');
@@ -37,10 +34,6 @@ class AboutPage extends StatelessWidget {
     } else {
       throw Exception('Could not launch $termsofuse');
     }
-  }
-
-  void signUserOut() {
-    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -138,39 +131,6 @@ class AboutPage extends StatelessWidget {
           ),
 
           SizedBox(height: MediaQuery.of(context).size.height / 20),
-
-          // Rate the app
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //         child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.start,
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Row(
-          //               children: const [
-          //                 Text(
-          //                   "Rate the app",
-          //                   style: TextStyle(
-          //                     fontSize: 20,
-          //                     fontWeight: FontWeight.w600,
-          //                     color: Color(0xffb31c6e),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-
-          // SizedBox(height: MediaQuery.of(context).size.height / 20),
 
           // Like us on social media
           Padding(
@@ -279,38 +239,6 @@ class AboutPage extends StatelessWidget {
               ],
             ),
           ),
-
-          // SizedBox(height: MediaQuery.of(context).size.height / 20),
-
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //         child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.start,
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Row(
-          //               children: const [
-          //                 Text(
-          //                   "Licenses",
-          //                   style: TextStyle(
-          //                     fontSize: 20,
-          //                     fontWeight: FontWeight.w600,
-          //                     color: Color(0xffb31c6e),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
